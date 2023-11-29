@@ -7,7 +7,9 @@ export const settingDotEnvPort = () => {
 }
 
 export const settingDotEnvDB = () => {
-    return { db: {
-        localhost: process.env.DB_LOCALHOST
-    }}
+    return { 
+        db: {
+            localhost: process.env.DB_LOCALHOST
+        },
+    }
 }

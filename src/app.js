@@ -4,9 +4,10 @@ import cors from "cors";
 import { connectMongo } from "./database/db.js";
 import authRoutes from "./routes/auth.routes.js";
 
-connectMongo();
+
 
 export const app = express();
+connectMongo();
 
 
 app.use(morgan("tiny"));
