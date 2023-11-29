@@ -1,7 +1,8 @@
-import express from "express"
-import morgan from "morgan"
-import cors from "cors"
+import express from "express";
+import morgan from "morgan";
+import cors from "cors";
 import { connectMongo } from "./database/db.js";
+import authRoutes from "./routes/auth.routes.js";
 
 connectMongo();
 
@@ -12,7 +13,4 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json)
 
-app.use ("/", (req,res) => {
-    res.send("Bienvenidos")
-
-})
+app.use (authRoutes);
