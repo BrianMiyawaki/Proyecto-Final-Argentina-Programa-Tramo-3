@@ -1,0 +1,14 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Proyecto Backend- Argentina Programa",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js" ,
+    "start": "node src/index.js"
+  },
+  "keywords": [],
+  "author": "Brian Miyawaki",
+  "license": "ISC"
+}
