@@ -8,7 +8,7 @@ export const register = async (req,res) => {
     const {userName,email,password} = req.body
 
     try {
-        new User({
+        const newUser =new User({
             userName,
             email,
             password
