@@ -2,7 +2,7 @@
 
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt"
-//import jwt from "jsonwebtoken"
+import {createAccessToken} from "../middlewares/jwt.validator.js"
 
 
 //Regristro de Usuario
@@ -24,17 +24,9 @@ export const register = async (req,res) => {
         const UserSaved = await newUser.save();
 
         //Generamos el Token
-        jwt.sign(
-            {id: UserSaved._id}, 
-            "proyectoBd", 
-            {expiresIn: "2h"},
-            (err, token) => {
-                if (err) console.log(err);
-                res.cookie("cookie", token);
-                res.json({UserSaved});
-            }
-            );
-
+        const token = await createAccessToken({ id:UserSaved })
+        res.cookie("token", token)
+        res.json({message: "Usuario registrado con éxito", id:UserSaved.id, userName:UserSaved.userName, email:UserSaved.email})
 
     } catch (error) {
         res.status(500).json({message: "Error al registrar el usuario"})
@@ -43,34 +35,25 @@ export const register = async (req,res) => {
 
 
 //Login de usuario
-export const login = async (req,res) => {
+ export const login = async (req,res) => {
 
-    const {email, password} = req.body;
+     const {email, password} = req.body;
 
-    try {
+     try {
         
-       const UserFound = await User.findOne({email})
-       if (!UserFound) 
-            return res.status(400).json({message: "Usuario no encontrado"});
+        const UserFound = await User.findOne({email})
+        if (!UserFound) 
+             return res.status(400).json({message: "Usuario no encontrado"});
 
-        const match = await bcrypt.compare(password, UserFound.password);
-        if (!match)
-         return res.status(400).json({message: "Contraseña incorrecta"});
+         const match = await bcrypt.compare(password, UserFound.password);
+         if (!match)
+          return res.status(400).json({message: "Contraseña incorrecta"});
 
-        //Generamos el Token nuevamente
-        // jwt.sign(
-             
-        //     "proyectoBd", 
-        //     {expiresIn: "2h"},
-        //     (err, token) => {
-        //         if (err) console.log(err);
-        //         res.cookie("cookie", token);
-        //         res.json({UserFound});
-        //     }
-        //     ); 
-    } catch (error) {
-        res.status(500).json({message: "Error al logearse"})
-    }
+         //Generamos el Token nuevamente
+         
+     } catch (error) {
+         res.status(500).json({message: "Error al logearse"})
+     }
 
-};
+ };
    
