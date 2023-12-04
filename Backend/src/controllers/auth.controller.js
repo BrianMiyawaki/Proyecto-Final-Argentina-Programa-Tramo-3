@@ -50,6 +50,13 @@ export const register = async (req,res) => {
           return res.status(400).json({message: "Contraseña incorrecta"});
 
          //Generamos el Token nuevamente
+         const token = await createAccessToken({id:UserFound.id});
+         res.cookie("token",token);
+         res.json({
+            message:"Bienvenido!",
+            userName: UserFound.userName,
+            email:UserFound.email
+         });
          
      } catch (error) {
          res.status(500).json({message: "Error al logearse"})
