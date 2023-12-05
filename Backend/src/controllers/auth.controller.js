@@ -34,7 +34,7 @@ export const register = async (req,res) => {
 };
 
 
-//Login de usuario
+//Login de Usuario
  export const login = async (req,res) => {
 
      const {email, password} = req.body;
@@ -63,4 +63,29 @@ export const register = async (req,res) => {
      }
 
  };
-   
+  
+ //Logout de Usuario
+ export const logout = async (req,res) => {
+
+    res.cookie("token", "", {expires: new Date(0)})
+    return res.status(200).json({message:"Hasta pronto"})
+};
+ 
+//Profile de Usuario
+export const profile = async (req,res) => {
+
+    try {
+        const UserFound = await User.findById(req.user.id);
+        if (!UserFound)
+            return res.status(400).json({message:"Usuario no encontrado"})
+
+        res.json({
+            message:"Perfil",
+            userName: UserFound.userName,
+            email:UserFound.email
+            })
+    } catch (error) {
+        res.status(500).json({message: "Error en el perfil"})
+    }
+
+};
