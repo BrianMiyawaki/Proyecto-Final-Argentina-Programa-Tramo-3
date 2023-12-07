@@ -26,7 +26,10 @@ export const register = async (req,res) => {
         //Generamos el Token
         const token = await createAccessToken({ id:UserSaved })
         res.cookie("token", token)
-        res.json({message: "Usuario registrado con éxito", id:UserSaved.id, userName:UserSaved.userName, email:UserSaved.email})
+        res.json({message: "Usuario registrado con éxito",
+         id:UserSaved.id,
+        userName:UserSaved.userName,
+        email:UserSaved.email})
 
     } catch (error) {
         res.status(500).json({message: "Error al registrar el usuario"})
@@ -77,13 +80,13 @@ export const profile = async (req,res) => {
     try {
         const UserFound = await User.findById(req.user.id);
         if (!UserFound)
-            return res.status(400).json({message:"Usuario no encontrado"})
+            return res.status(400).json({message:"Usuario no encontrado"});
 
         res.json({
             message:"Perfil",
             userName: UserFound.userName,
-            email:UserFound.email
-            })
+            email: UserFound.email,
+            });
     } catch (error) {
         res.status(500).json({message: "Error en el perfil"})
     }
