@@ -9,6 +9,10 @@ import {createAccessToken} from "../middlewares/jwt.validator.js"
 export const register = async (req,res) => {
     const {userName,email,password} = req.body;
 
+    //validamos el usuario
+    const userFound = await User.findOne({email})
+    if (userFound) return res.status(400).json(["El usuario ya existe"])
+
     try {
 
         //encriptar contrasena
